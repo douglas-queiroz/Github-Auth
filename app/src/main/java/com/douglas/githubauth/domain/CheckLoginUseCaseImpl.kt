@@ -6,6 +6,6 @@ class CheckLoginUseCaseImpl(private val userSessionHelper: UserSessionHelper): C
 
     override fun hasUserLogged(): Boolean {
 
-        return (userSessionHelper.getUserToken() != null)
+        return !userSessionHelper.getUserToken().isNullOrEmpty()
     }
 }
