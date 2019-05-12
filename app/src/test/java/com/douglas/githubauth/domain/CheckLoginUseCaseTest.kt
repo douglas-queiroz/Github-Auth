@@ -5,6 +5,8 @@ import org.junit.Test
 
 class CheckLoginUseCaseTest {
 
+    
+
     private lateinit var target: CheckLoginUseCase
 
     @Test
