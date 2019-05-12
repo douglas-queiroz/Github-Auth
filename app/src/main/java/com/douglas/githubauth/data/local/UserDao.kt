@@ -1,8 +1,8 @@
 package com.douglas.githubauth.data.local
 
-import com.douglas.githubauth.domain.model.UserCredencial
+import com.douglas.githubauth.domain.model.UserCredential
 
 interface UserDao {
 
-    fun saveUserCredencials(userCredential: UserCredencial) : Boolean
+    fun saveUserCredencials(userCredential: UserCredential) : Boolean
 }
