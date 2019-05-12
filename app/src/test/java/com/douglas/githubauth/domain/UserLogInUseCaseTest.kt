@@ -5,10 +5,15 @@ import com.douglas.githubauth.data.remote.UserService
 import com.douglas.githubauth.domain.exception.EmptyFieldException
 import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.exception.WasNotAbleToSaveCredentialException
+import com.douglas.githubauth.domain.model.UserCredential
+import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
+import retrofit2.HttpException
 
 class UserLogInUseCaseTest {
 
@@ -22,6 +27,8 @@ class UserLogInUseCaseTest {
 
     private val userName = "user_name"
     private val password = "password"
+    private val authorization = ""
+    private val userCredential = UserCredential(userName, password)
 
     @Before
     fun setUp() {
@@ -69,7 +76,12 @@ class UserLogInUseCaseTest {
     @Test
     fun `When it isn't a valid credential`() {
 
-        val testObserver = target.logInUser(userName, null).test()
+        val httpError = mock(HttpException::class.java)
+
+        `when`(httpError.code()).thenReturn(401)
+        `when`(userService.checkCredentials(authorization)).thenReturn(Completable.error(httpError))
+
+        val testObserver = target.logInUser(userName, password).test()
 
         testObserver.assertNotComplete()
         testObserver.assertError(InvalidCredentialException::class.java)
@@ -78,7 +90,10 @@ class UserLogInUseCaseTest {
     @Test
     fun `When couldn't save user credential `() {
 
-        val testObserver = target.logInUser(userName, null).test()
+        `when`(userService.checkCredentials(authorization)).thenReturn(Completable.complete())
+        `when`(userDao.saveUserCredencials(userCredential)).thenReturn(false)
+
+        val testObserver = target.logInUser(userName, password).test()
 
         testObserver.assertNotComplete()
         testObserver.assertError(WasNotAbleToSaveCredentialException::class.java)
@@ -86,6 +101,9 @@ class UserLogInUseCaseTest {
 
     @Test
     fun `When it works fine`() {
+
+        `when`(userService.checkCredentials(authorization)).thenReturn(Completable.complete())
+        `when`(userDao.saveUserCredencials(userCredential)).thenReturn(false)
 
         val testObserver = target.logInUser(userName, null).test()
 
