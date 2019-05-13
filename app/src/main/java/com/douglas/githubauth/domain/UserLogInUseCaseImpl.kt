@@ -7,8 +7,8 @@ import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.exception.WasNotAbleToSaveCredentialException
 import com.douglas.githubauth.domain.model.UserCredential
 import com.douglas.githubauth.util.AuthorizationUtil
+import io.reactivex.Completable
 import retrofit2.HttpException
-import rx.Completable
 
 class UserLogInUseCaseImpl(private val userDao: UserDao,
                            private val userService: UserService,
@@ -42,7 +42,7 @@ class UserLogInUseCaseImpl(private val userDao: UserDao,
 
             if (userDao.saveUserCredential(userCredential)) {
 
-                completable.onCompleted()
+                completable.onComplete()
             }else {
 
                 completable.onError(WasNotAbleToSaveCredentialException())

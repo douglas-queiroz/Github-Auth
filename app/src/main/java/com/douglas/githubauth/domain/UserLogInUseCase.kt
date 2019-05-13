@@ -1,6 +1,6 @@
 package com.douglas.githubauth.domain
 
-import rx.Completable
+import io.reactivex.Completable
 
 
 interface UserLogInUseCase {

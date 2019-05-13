@@ -11,4 +11,5 @@ ext {
     rx_java_version = '2.2.8'
     rx_android_version = '2.1.1'
     retrofit_version = '2.5.0'
+    logging_interceptor_version = '3.9.1'
 }

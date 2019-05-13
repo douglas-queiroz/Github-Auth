@@ -1,7 +1,7 @@
 package com.douglas.githubauth.domain
 
 import com.douglas.githubauth.domain.model.User
-import rx.Observable
+import io.reactivex.Observable
 
 interface LoadUserUseCase {
 
