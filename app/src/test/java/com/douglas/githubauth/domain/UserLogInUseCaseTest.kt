@@ -6,14 +6,16 @@ import com.douglas.githubauth.domain.exception.EmptyFieldException
 import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.exception.WasNotAbleToSaveCredentialException
 import com.douglas.githubauth.domain.model.UserCredential
+import com.douglas.githubauth.util.AuthorizationUtil
 import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
+
 
 class UserLogInUseCaseTest {
 
@@ -23,18 +25,21 @@ class UserLogInUseCaseTest {
     @Mock
     lateinit var userService: UserService
 
+    @Mock
+    lateinit var authorizationUtil: AuthorizationUtil
+
     private lateinit var target: UserLogInUseCase
 
     private val userName = "user_name"
     private val password = "password"
-    private val authorization = ""
+    private val authorization = "authorization"
     private val userCredential = UserCredential(userName, password)
 
     @Before
     fun setUp() {
 
         MockitoAnnotations.initMocks(this)
-        target = UserLogInUseCaseImpl(userDao, userService)
+        target = UserLogInUseCaseImpl(userDao, userService, authorizationUtil)
     }
 
     @Test
@@ -44,6 +49,9 @@ class UserLogInUseCaseTest {
 
         testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
+
+        verify(userService, never()).checkCredentials(authorization)
+        verify(userDao, never()).saveUserCredencials(userCredential)
     }
 
     @Test
@@ -53,6 +61,9 @@ class UserLogInUseCaseTest {
 
         testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
+
+        verify(userService, never()).checkCredentials(authorization)
+        verify(userDao, never()).saveUserCredencials(userCredential)
     }
 
     @Test
@@ -62,6 +73,9 @@ class UserLogInUseCaseTest {
 
         testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
+
+        verify(userService, never()).checkCredentials(authorization)
+        verify(userDao, never()).saveUserCredencials(userCredential)
     }
 
     @Test
@@ -71,6 +85,9 @@ class UserLogInUseCaseTest {
 
         testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
+
+        verify(userService, never()).checkCredentials(authorization)
+        verify(userDao, never()).saveUserCredencials(userCredential)
     }
 
     @Test
@@ -79,35 +96,47 @@ class UserLogInUseCaseTest {
         val httpError = mock(HttpException::class.java)
 
         `when`(httpError.code()).thenReturn(401)
-        `when`(userService.checkCredentials(authorization)).thenReturn(Completable.error(httpError))
+        `when`(userService.checkCredentials(anyString())).thenReturn(Completable.error(httpError))
+        `when`(authorizationUtil.generateAuthorization(userName, password)).thenReturn(authorization)
 
         val testObserver = target.logInUser(userName, password).test()
 
         testObserver.assertNotComplete()
         testObserver.assertError(InvalidCredentialException::class.java)
+
+        verify(userService, times(1)).checkCredentials(authorization)
+        verify(userDao, never()).saveUserCredencials(userCredential)
     }
 
     @Test
     fun `When couldn't save user credential `() {
 
-        `when`(userService.checkCredentials(authorization)).thenReturn(Completable.complete())
+        `when`(userService.checkCredentials(anyString())).thenReturn(Completable.complete())
         `when`(userDao.saveUserCredencials(userCredential)).thenReturn(false)
+        `when`(authorizationUtil.generateAuthorization(userName, password)).thenReturn(authorization)
 
         val testObserver = target.logInUser(userName, password).test()
 
         testObserver.assertNotComplete()
         testObserver.assertError(WasNotAbleToSaveCredentialException::class.java)
+
+        verify(userService, times(1)).checkCredentials(authorization)
+        verify(userDao, times(1)).saveUserCredencials(userCredential)
     }
 
     @Test
     fun `When it works fine`() {
 
-        `when`(userService.checkCredentials(authorization)).thenReturn(Completable.complete())
-        `when`(userDao.saveUserCredencials(userCredential)).thenReturn(false)
+        `when`(userService.checkCredentials(anyString())).thenReturn(Completable.complete())
+        `when`(userDao.saveUserCredencials(userCredential)).thenReturn(true)
+        `when`(authorizationUtil.generateAuthorization(userName, password)).thenReturn(authorization)
 
-        val testObserver = target.logInUser(userName, null).test()
+        val testObserver = target.logInUser(userName, password).test()
 
         testObserver.assertComplete()
         testObserver.assertNoErrors()
+
+        verify(userService, times(1)).checkCredentials(authorization)
+        verify(userDao, times(1)).saveUserCredencials(userCredential)
     }
 }
