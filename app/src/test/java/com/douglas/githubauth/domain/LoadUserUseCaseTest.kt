@@ -53,7 +53,7 @@ class LoadUserUseCaseTest {
 
         val testObserver = target.loadUser().test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(HasNoUserLoggedIn::class.java)
 
         verify(userService, never()).fetchUser(authorization)
@@ -70,7 +70,7 @@ class LoadUserUseCaseTest {
 
         val testObserver = target.loadUser().test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(InvalidCredentialException::class.java)
 
         verify(userDao, times(1)).getUserCredential()
@@ -83,7 +83,7 @@ class LoadUserUseCaseTest {
 
         val testObserver = target.loadUser().test()
 
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertNoErrors()
 
         verify(authorizationUtil, times(1)).generateAuthorization(userName, password)

@@ -47,7 +47,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser("", password).test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -59,7 +59,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(null, password).test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -71,7 +71,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, "").test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -83,7 +83,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, null).test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -101,7 +101,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, password).test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(InvalidCredentialException::class.java)
 
         verify(userService, times(1)).checkCredentials(authorization)
@@ -117,7 +117,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, password).test()
 
-        testObserver.assertNotCompleted()
+        testObserver.assertNotComplete()
         testObserver.assertError(WasNotAbleToSaveCredentialException::class.java)
 
         verify(userService, times(1)).checkCredentials(authorization)
@@ -133,7 +133,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, password).test()
 
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertNoErrors()
 
         verify(userService, times(1)).checkCredentials(authorization)

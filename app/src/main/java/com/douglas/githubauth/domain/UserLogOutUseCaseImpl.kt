@@ -1,18 +1,15 @@
 package com.douglas.githubauth.domain
 
 import com.douglas.githubauth.data.local.UserDao
-import com.douglas.githubauth.domain.exception.HasNoUserLoggedIn
+import com.douglas.githubauth.domain.exception.WasNotAbleToRemoveUser
 
 class UserLogOutUseCaseImpl(private val userDao: UserDao): UserLogOutUseCase {
 
     override fun logOutUser() {
 
-        if (userDao.getUserCredential() != null) {
+        if (!userDao.removeUser()) {
 
-            userDao.removeUser()
-        } else {
-
-            throw HasNoUserLoggedIn()
+            throw WasNotAbleToRemoveUser()
         }
     }
 }
