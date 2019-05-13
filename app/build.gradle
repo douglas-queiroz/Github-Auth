@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def keystorePropertiesFile = rootProject.file("gituser_test.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -15,6 +19,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField 'String', 'BASE_API', "\"https://api.github.com/\""
+        buildConfigField 'String', 'GIT_USER_USERNAME', keystoreProperties['username']
+        buildConfigField 'String', 'GIT_USER_PASSWORD', keystoreProperties['password']
     }
     buildTypes {
         release {
