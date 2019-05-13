@@ -1,5 +1,6 @@
 package com.douglas.githubauth.data.remote
 
+import com.douglas.githubauth.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.schedulers.Schedulers
@@ -23,9 +24,9 @@ class RetrofitCreator {
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build()
 
-        fun createRetrofit(url: String): Retrofit =
+        fun createRetrofit(): Retrofit =
             Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(BuildConfig.BASE_API)
                 .addConverterFactory(GsonConverterFactory.create(provideGson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(provideOkHttpClient())
