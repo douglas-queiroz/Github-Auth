@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
-open class BaseViewModel: ViewModel(), LifecycleObserver {
+abstract class BaseViewModel: ViewModel(), LifecycleObserver {
 
     val subscriptions = CompositeDisposable()
     val loadingStatus = MutableLiveData<Boolean>()
