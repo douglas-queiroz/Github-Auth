@@ -4,5 +4,7 @@ import com.douglas.githubauth.domain.model.UserCredential
 
 interface UserDao {
 
-    fun saveUserCredencials(userCredential: UserCredential) : Boolean
+    fun saveUserCredential(userCredential: UserCredential) : Boolean
+
+    fun getUserCredential() : UserCredential?
 }
