@@ -7,13 +7,13 @@ import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.model.User
 import com.douglas.githubauth.domain.model.UserCredential
 import com.douglas.githubauth.util.AuthorizationUtil
+import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
-import rx.Observable
 
 class LoadUserUseCaseTest {
 

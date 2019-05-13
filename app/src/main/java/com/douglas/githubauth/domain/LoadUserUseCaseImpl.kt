@@ -7,8 +7,8 @@ import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.model.User
 import com.douglas.githubauth.domain.model.UserCredential
 import com.douglas.githubauth.util.AuthorizationUtil
+import io.reactivex.Observable
 import retrofit2.HttpException
-import rx.Observable
 
 class LoadUserUseCaseImpl(private val userDao: UserDao,
                           private val userService: UserService,
