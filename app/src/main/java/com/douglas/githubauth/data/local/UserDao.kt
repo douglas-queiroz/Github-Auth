@@ -7,4 +7,6 @@ interface UserDao {
     fun saveUserCredential(userCredential: UserCredential) : Boolean
 
     fun getUserCredential() : UserCredential?
+
+    fun removeUser() : Boolean
 }
