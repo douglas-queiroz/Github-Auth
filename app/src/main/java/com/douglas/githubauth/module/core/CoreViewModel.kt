@@ -1,4 +1,10 @@
 package com.douglas.githubauth.module.core
 
-class CoreViewModel {
+import com.douglas.githubauth.module.base.BaseViewModel
+
+class CoreViewModel: BaseViewModel() {
+
+    fun checkIfHasUserLoggedIn() {
+
+    }
 }
