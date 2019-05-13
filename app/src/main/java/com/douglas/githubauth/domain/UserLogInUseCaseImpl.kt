@@ -7,9 +7,8 @@ import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.exception.WasNotAbleToSaveCredentialException
 import com.douglas.githubauth.domain.model.UserCredential
 import com.douglas.githubauth.util.AuthorizationUtil
-import io.reactivex.Completable
-import io.reactivex.CompletableObserver
 import retrofit2.HttpException
+import rx.Completable
 
 class UserLogInUseCaseImpl(private val userDao: UserDao,
                            private val userService: UserService,
@@ -22,10 +21,7 @@ class UserLogInUseCaseImpl(private val userDao: UserDao,
             userService
                 .checkCredentials(generateAuthorization(userName, password))
                 .onErrorResumeNext(this::catchError)
-                .mergeWith { completableObserver ->
-
-                    saveCredential(userName, password, completableObserver)
-                }
+                .andThen(saveCredential(userName, password))
 
         } else {
 
@@ -38,16 +34,19 @@ class UserLogInUseCaseImpl(private val userDao: UserDao,
         return authorizationUtil.generateAuthorization(userName, password)
     }
 
-    private fun saveCredential(userName: String, password: String, completableObserver: CompletableObserver) {
+    private fun saveCredential(userName: String, password: String): Completable {
 
-        val userCredential = UserCredential(userName, password)
+        return Completable.create { completable ->
 
-        if (userDao.saveUserCredential(userCredential)) {
+            val userCredential = UserCredential(userName, password)
 
-            completableObserver.onComplete()
-        }else {
+            if (userDao.saveUserCredential(userCredential)) {
 
-            completableObserver.onError(WasNotAbleToSaveCredentialException())
+                completable.onCompleted()
+            }else {
+
+                completable.onError(WasNotAbleToSaveCredentialException())
+            }
         }
     }
 

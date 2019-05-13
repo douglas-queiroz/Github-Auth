@@ -7,17 +7,13 @@ import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.model.User
 import com.douglas.githubauth.domain.model.UserCredential
 import com.douglas.githubauth.util.AuthorizationUtil
-import io.reactivex.Observable
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
+import rx.Observable
 
 class LoadUserUseCaseTest {
 
@@ -77,9 +73,9 @@ class LoadUserUseCaseTest {
         testObserver.assertNotCompleted()
         testObserver.assertError(InvalidCredentialException::class.java)
 
-        verify(authorizationUtil, times(1)).generateAuthorization(userName, password)
+        verify(userDao, times(1)).getUserCredential()
         verify(userService, times(1)).fetchUser(authorization)
-        verify(authorizationUtil, never()).generateAuthorization(userName, password)
+        verify(authorizationUtil, times(1)).generateAuthorization(userName, password)
     }
 
     @Test
@@ -87,11 +83,11 @@ class LoadUserUseCaseTest {
 
         val testObserver = target.loadUser().test()
 
-        testObserver.assertNotCompleted()
-        testObserver.assertError(InvalidCredentialException::class.java)
+        testObserver.assertCompleted()
+        testObserver.assertNoErrors()
 
         verify(authorizationUtil, times(1)).generateAuthorization(userName, password)
         verify(userService, times(1)).fetchUser(authorization)
-        verify(authorizationUtil, never()).generateAuthorization(userName, password)
+        verify(authorizationUtil, times(1)).generateAuthorization(userName, password)
     }
 }
