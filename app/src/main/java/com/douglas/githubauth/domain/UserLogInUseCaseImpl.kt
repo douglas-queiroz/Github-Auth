@@ -42,7 +42,7 @@ class UserLogInUseCaseImpl(private val userDao: UserDao,
 
         val userCredential = UserCredential(userName, password)
 
-        if (userDao.saveUserCredencials(userCredential)) {
+        if (userDao.saveUserCredentials(userCredential)) {
 
             completableObserver.onComplete()
         }else {

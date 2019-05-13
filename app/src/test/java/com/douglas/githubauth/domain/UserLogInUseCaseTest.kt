@@ -51,7 +51,7 @@ class UserLogInUseCaseTest {
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
-        verify(userDao, never()).saveUserCredencials(userCredential)
+        verify(userDao, never()).saveUserCredentials(userCredential)
     }
 
     @Test
@@ -63,7 +63,7 @@ class UserLogInUseCaseTest {
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
-        verify(userDao, never()).saveUserCredencials(userCredential)
+        verify(userDao, never()).saveUserCredentials(userCredential)
     }
 
     @Test
@@ -75,7 +75,7 @@ class UserLogInUseCaseTest {
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
-        verify(userDao, never()).saveUserCredencials(userCredential)
+        verify(userDao, never()).saveUserCredentials(userCredential)
     }
 
     @Test
@@ -87,7 +87,7 @@ class UserLogInUseCaseTest {
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
-        verify(userDao, never()).saveUserCredencials(userCredential)
+        verify(userDao, never()).saveUserCredentials(userCredential)
     }
 
     @Test
@@ -105,14 +105,14 @@ class UserLogInUseCaseTest {
         testObserver.assertError(InvalidCredentialException::class.java)
 
         verify(userService, times(1)).checkCredentials(authorization)
-        verify(userDao, never()).saveUserCredencials(userCredential)
+        verify(userDao, never()).saveUserCredentials(userCredential)
     }
 
     @Test
     fun `When couldn't save user credential `() {
 
         `when`(userService.checkCredentials(anyString())).thenReturn(Completable.complete())
-        `when`(userDao.saveUserCredencials(userCredential)).thenReturn(false)
+        `when`(userDao.saveUserCredentials(userCredential)).thenReturn(false)
         `when`(authorizationUtil.generateAuthorization(userName, password)).thenReturn(authorization)
 
         val testObserver = target.logInUser(userName, password).test()
@@ -121,14 +121,14 @@ class UserLogInUseCaseTest {
         testObserver.assertError(WasNotAbleToSaveCredentialException::class.java)
 
         verify(userService, times(1)).checkCredentials(authorization)
-        verify(userDao, times(1)).saveUserCredencials(userCredential)
+        verify(userDao, times(1)).saveUserCredentials(userCredential)
     }
 
     @Test
     fun `When it works fine`() {
 
         `when`(userService.checkCredentials(anyString())).thenReturn(Completable.complete())
-        `when`(userDao.saveUserCredencials(userCredential)).thenReturn(true)
+        `when`(userDao.saveUserCredentials(userCredential)).thenReturn(true)
         `when`(authorizationUtil.generateAuthorization(userName, password)).thenReturn(authorization)
 
         val testObserver = target.logInUser(userName, password).test()
@@ -137,6 +137,6 @@ class UserLogInUseCaseTest {
         testObserver.assertNoErrors()
 
         verify(userService, times(1)).checkCredentials(authorization)
-        verify(userDao, times(1)).saveUserCredencials(userCredential)
+        verify(userDao, times(1)).saveUserCredentials(userCredential)
     }
 }
