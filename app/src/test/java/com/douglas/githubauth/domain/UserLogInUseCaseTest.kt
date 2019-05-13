@@ -7,7 +7,6 @@ import com.douglas.githubauth.domain.exception.InvalidCredentialException
 import com.douglas.githubauth.domain.exception.WasNotAbleToSaveCredentialException
 import com.douglas.githubauth.domain.model.UserCredential
 import com.douglas.githubauth.util.AuthorizationUtil
-import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
@@ -15,6 +14,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
+import rx.Completable
 
 
 class UserLogInUseCaseTest {
@@ -47,7 +47,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser("", password).test()
 
-        testObserver.assertNotComplete()
+        testObserver.assertNotCompleted()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -59,7 +59,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(null, password).test()
 
-        testObserver.assertNotComplete()
+        testObserver.assertNotCompleted()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -71,7 +71,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, "").test()
 
-        testObserver.assertNotComplete()
+        testObserver.assertNotCompleted()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -83,7 +83,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, null).test()
 
-        testObserver.assertNotComplete()
+        testObserver.assertNotCompleted()
         testObserver.assertError(EmptyFieldException::class.java)
 
         verify(userService, never()).checkCredentials(authorization)
@@ -101,7 +101,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, password).test()
 
-        testObserver.assertNotComplete()
+        testObserver.assertNotCompleted()
         testObserver.assertError(InvalidCredentialException::class.java)
 
         verify(userService, times(1)).checkCredentials(authorization)
@@ -117,7 +117,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, password).test()
 
-        testObserver.assertNotComplete()
+        testObserver.assertNotCompleted()
         testObserver.assertError(WasNotAbleToSaveCredentialException::class.java)
 
         verify(userService, times(1)).checkCredentials(authorization)
@@ -133,7 +133,7 @@ class UserLogInUseCaseTest {
 
         val testObserver = target.logInUser(userName, password).test()
 
-        testObserver.assertComplete()
+        testObserver.assertCompleted()
         testObserver.assertNoErrors()
 
         verify(userService, times(1)).checkCredentials(authorization)

@@ -1,8 +1,8 @@
 package com.douglas.githubauth.data.remote
 
 import com.douglas.githubauth.domain.model.User
-import io.reactivex.Completable
-import io.reactivex.Observable
+import rx.Completable
+import rx.Observable
 
 interface UserService {
 
