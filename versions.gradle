@@ -8,4 +8,7 @@ ext {
     runner_version = '1.0.2'
     espressor_version = '3.0.2'
     mockito_version = '2.25.1'
+    rx_java_version = '2.2.8'
+    rx_android_version = '2.1.1'
+    retrofit_version = '2.5.0'
 }

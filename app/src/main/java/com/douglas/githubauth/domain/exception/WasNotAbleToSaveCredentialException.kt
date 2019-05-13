@@ -1,0 +1,5 @@
+package com.douglas.githubauth.domain.exception
+
+import java.lang.Exception
+
+class WasNotAbleToSaveCredentialException: Exception()
