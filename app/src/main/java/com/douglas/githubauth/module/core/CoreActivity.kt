@@ -1,9 +1,10 @@
 package com.douglas.githubauth.module.core
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.douglas.githubauth.R
+import com.douglas.githubauth.module.base.BaseActivity
 
-class CoreActivity : AppCompatActivity() {
+class CoreActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
