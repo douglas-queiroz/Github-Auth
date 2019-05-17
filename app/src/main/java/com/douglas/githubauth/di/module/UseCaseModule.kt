@@ -14,8 +14,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun providesCheckLoginUseCase(userSessionHelper: UserSessionHelper) : CheckLoginUseCase
-            = CheckLoginUseCaseImpl(userSessionHelper)
+    fun providesCheckLoginUseCase(userDao: UserDao) : CheckLoginUseCase = CheckLoginUseCaseImpl(userDao)
 
     @Singleton
     @Provides
