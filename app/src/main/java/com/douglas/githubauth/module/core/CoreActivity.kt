@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
 import com.douglas.githubauth.module.login.LoginFragment
+import com.douglas.githubauth.module.profile.ProfileFragment
 import javax.inject.Inject
 
 class CoreActivity : AppCompatActivity() {
@@ -69,7 +70,11 @@ class CoreActivity : AppCompatActivity() {
     }
 
     private fun showProfileScree() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val profileFragment = ProfileFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.content, profileFragment)
+            .commit()
     }
 
 }
