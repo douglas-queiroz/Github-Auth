@@ -8,6 +8,7 @@ import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
 import com.douglas.githubauth.module.base.BaseFragment
 import com.douglas.githubauth.module.base.BaseViewModel
+import com.douglas.githubauth.module.profile.ProfileFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -55,7 +56,16 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private fun gotToProfileScreen(goToProfileScreen: Boolean?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        if (goToProfileScreen != null && goToProfileScreen) {
+
+            val profileFragment = ProfileFragment()
+
+            activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.content, profileFragment)
+                ?.commit()
+        }
     }
 
     private fun onAttemptLogin() {
