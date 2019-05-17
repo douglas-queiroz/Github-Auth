@@ -72,6 +72,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
+    // Picasso
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+
     // Test Dependencies
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
