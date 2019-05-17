@@ -3,9 +3,7 @@ package com.douglas.githubauth.module.login
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
 import com.douglas.githubauth.module.base.BaseFragment
@@ -22,6 +20,15 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
         initDependence()
         subscribeViewModel()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+    }
+
+    private fun setupView() {
+        loginButton.setOnClickListener { onAttemptLogin() }
     }
 
     private fun initDependence() {
@@ -51,7 +58,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun onAttemptLogin() {
+    private fun onAttemptLogin() {
 
         val username = usernameEditText.text.toString()
         val password = passwordEditText.text.toString()
