@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">GithubAuth</string>
+
+    <!--Generic Messages-->
+    <string name="generec_error_title">Ops!</string>
+    <string name="generic_error_message">Something is not working fine. Sorry!</string>
+    <string name="generic_positive_button">Got it</string>
+    <string name="generic_loading_text">Loading! Wait a moment!</string>
+
+    <!--Login Module-->
+    <string name="login_module_empty_field_error_msg">All fields are required</string>
+    <string name="login_module_invalid_credential_error_msg">Username or password is wrong</string>
+    <string name="login_module_cant_save_credential_error_msg">We couldn\'t save your credential. \nTry again!</string>
+    <string name="login_module_username_edit_text_hint">Username</string>
+    <string name="login_module_password_edit_text_hint">Password</string>
+    <string name="login_module_login_button_title">Login</string>
+
+    <!--Profile Screen-->
+    <string name="profile_module_couldnt_remove_user">It wasn\'t able to logout!</string>
+    <string name="profile_module_logout_button_title">Logout</string>
+</resources>
