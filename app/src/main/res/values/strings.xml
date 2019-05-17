@@ -15,4 +15,6 @@
     <string name="login_module_password_edit_text_hint">Password</string>
     <string name="login_module_login_button_title">Login</string>
 
+    <!--Profile Screen-->
+    <string name="profile_module_no_user_exception">Has </string>
 </resources>
