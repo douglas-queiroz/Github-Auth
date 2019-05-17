@@ -3,12 +3,15 @@ package com.douglas.githubauth.module.profile
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.View
 import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
-import com.douglas.githubauth.di.ViewModelFactory
 import com.douglas.githubauth.domain.model.User
 import com.douglas.githubauth.module.base.BaseFragment
 import com.douglas.githubauth.module.base.BaseViewModel
+import com.douglas.githubauth.module.login.LoginFragment
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
@@ -20,12 +23,23 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         initDependece()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initView()
+        viewModel.loadProfile()
+    }
+
     private fun initDependece() {
 
         Application.component.inject(this)
         viewModel = getViewModel()
         subscribeViewModel()
 
+    }
+
+    private fun initView() {
+        logoutButton.setOnClickListener { viewModel.logout() }
     }
 
     private fun getViewModel() : ProfileViewModel {
@@ -52,10 +66,24 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     private fun fillOutView(user: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        Picasso.get()
+            .load(user.avatarUrl)
+            .into(avatarImageView)
+
+        nameTextView.text = user.name
+
+        emailTextView.text = user.email
+
+        locationTextView.text = user.location
     }
 
     private fun goToLoginScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val loginFragment = LoginFragment()
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.replace(R.id.content, loginFragment)
+            ?.commit()
     }
 }
