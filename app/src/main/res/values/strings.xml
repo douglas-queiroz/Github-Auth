@@ -16,5 +16,5 @@
     <string name="login_module_login_button_title">Login</string>
 
     <!--Profile Screen-->
-    <string name="profile_module_no_user_exception">Has </string>
+    <string name="profile_module_couldnt_remove_user">It wasn\'t able to logout!</string>
 </resources>

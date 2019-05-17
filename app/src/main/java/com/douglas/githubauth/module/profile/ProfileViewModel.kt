@@ -59,7 +59,7 @@ class ProfileViewModel @Inject constructor(private val loadUserUseCase: LoadUser
                 this.logout()
             }
             is WasNotAbleToRemoveUser -> {
-                val message = R.string.login_module_cant_save_credential_error_msg
+                val message = R.string.profile_module_couldnt_remove_user
                 showErrorMessage.value = message
             }
             else -> R.string.generic_error_message
