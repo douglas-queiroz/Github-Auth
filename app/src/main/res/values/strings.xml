@@ -17,4 +17,5 @@
 
     <!--Profile Screen-->
     <string name="profile_module_couldnt_remove_user">It wasn\'t able to logout!</string>
+    <string name="profile_module_logout_button_title">Logout</string>
 </resources>
