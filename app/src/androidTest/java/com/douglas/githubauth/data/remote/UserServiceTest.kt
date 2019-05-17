@@ -38,7 +38,7 @@ class UserServiceTest {
                 Assert.assertNotNull(it.email)
                 Assert.assertNotNull(it.company)
                 Assert.assertNotNull(it.avatarUrl)
-                Assert.assertNotNull(it.bio)
+                Assert.assertNotNull(it.location)
 
                 signal.countDown()
             }, {
