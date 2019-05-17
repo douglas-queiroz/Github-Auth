@@ -15,7 +15,8 @@
             tools:ignore="GoogleAppIndexingWarning"
             android:fullBackupContent="true">
 
-        <activity android:name=".module.core.CoreActivity">
+        <activity android:name=".module.core.CoreActivity"
+                  android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

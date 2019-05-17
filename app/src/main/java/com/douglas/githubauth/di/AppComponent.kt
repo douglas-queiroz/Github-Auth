@@ -2,6 +2,7 @@ package com.douglas.githubauth.di
 
 import com.douglas.githubauth.di.module.*
 import com.douglas.githubauth.module.core.CoreActivity
+import com.douglas.githubauth.module.login.LoginFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -18,4 +19,5 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(coreActivity: CoreActivity)
+    fun inject(loginFragment: LoginFragment)
 }

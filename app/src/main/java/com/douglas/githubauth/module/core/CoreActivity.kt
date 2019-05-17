@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
+import com.douglas.githubauth.module.login.LoginFragment
 import javax.inject.Inject
 
 class CoreActivity : AppCompatActivity() {
@@ -19,11 +20,12 @@ class CoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_core)
 
-        initDependences()
+        initDependence()
         subscribeViewStates()
     }
 
-    private fun initDependences() {
+    private fun initDependence() {
+
         Application.component.inject(this)
         viewModel = getViewModel()
     }
@@ -58,7 +60,12 @@ class CoreActivity : AppCompatActivity() {
     }
 
     private fun showLoginScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        val loginFragment = LoginFragment()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.content, loginFragment)
+            .commit()
     }
 
     private fun showProfileScree() {
