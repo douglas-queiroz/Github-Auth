@@ -15,7 +15,7 @@ class LoginViewModel @Inject constructor(private val userLogInUseCase: UserLogIn
 
     val goToProfileScreen = MutableLiveData<Boolean>()
 
-    fun attempLogin(username: String, password: String) {
+    fun attempLogin(username: String?, password: String?) {
 
         super.loadingStatus.value = true
 
