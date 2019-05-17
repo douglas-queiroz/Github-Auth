@@ -1,11 +1,11 @@
 package com.douglas.githubauth.domain
 
-import com.douglas.githubauth.helper.UserSessionHelper
+import com.douglas.githubauth.data.local.UserDao
 
-class CheckLoginUseCaseImpl(private val userSessionHelper: UserSessionHelper): CheckLoginUseCase {
+class CheckLoginUseCaseImpl(private val userDao: UserDao): CheckLoginUseCase {
 
     override fun hasUserLogged(): Boolean {
 
-        return !userSessionHelper.getUserToken().isNullOrEmpty()
+        return userDao.getUserCredential() != null
     }
 }

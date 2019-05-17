@@ -1,6 +1,7 @@
 package com.douglas.githubauth.domain
 
-import com.douglas.githubauth.helper.UserSessionHelper
+import com.douglas.githubauth.data.local.UserDao
+import com.douglas.githubauth.domain.model.UserCredential
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +12,7 @@ import org.mockito.MockitoAnnotations
 class CheckLoginUseCaseTest {
 
     @Mock
-    lateinit var userSessionHelper: UserSessionHelper
+    lateinit var userDao: UserDao
 
     private lateinit var target: CheckLoginUseCase
 
@@ -19,23 +20,13 @@ class CheckLoginUseCaseTest {
     fun setUp() {
 
         MockitoAnnotations.initMocks(this)
-        target = CheckLoginUseCaseImpl(userSessionHelper)
-    }
-
-    @Test
-    fun `When getUserToken returns an empty String`() {
-
-        `when`(userSessionHelper.getUserToken()).thenReturn("")
-
-        val result = target.hasUserLogged()
-
-        Assert.assertFalse(result)
+        target = CheckLoginUseCaseImpl(userDao)
     }
 
     @Test
     fun `When getUserToken returns null`() {
 
-        `when`(userSessionHelper.getUserToken()).thenReturn("")
+        `when`(userDao.getUserCredential()).thenReturn(null)
 
         val result = target.hasUserLogged()
 
@@ -45,7 +36,9 @@ class CheckLoginUseCaseTest {
     @Test
     fun `When getUserToken returns an token`() {
 
-        `when`(userSessionHelper.getUserToken()).thenReturn("token")
+        val credential = UserCredential("username", "password")
+
+        `when`(userDao.getUserCredential()).thenReturn(credential)
 
         val result = target.hasUserLogged()
 
