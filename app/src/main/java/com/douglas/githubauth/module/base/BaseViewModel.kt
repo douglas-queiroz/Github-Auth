@@ -9,6 +9,7 @@ abstract class BaseViewModel: ViewModel(), LifecycleObserver {
 
     val subscriptions = CompositeDisposable()
     val loadingStatus = MutableLiveData<Boolean>()
+    val showErrorMessage = MutableLiveData<Int>()
 
     override fun onCleared() {
         super.onCleared()

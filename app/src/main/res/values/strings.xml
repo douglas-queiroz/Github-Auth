@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">GithubAuth</string>
+
+    <!--Generic Messages-->
+    <string name="generic_error_message">Something is not working fine. Sorry!</string>
+
+    <!--Login Module-->
+    <string name="login_module_empty_field_error_msg">All fields are required</string>
+    <string name="login_module_invalid_credential_error_msg">Username or password is wrong</string>
+    <string name="login_module_cant_save_credential_error_msg">We couldn\'t save your credential. \nTry again!</string>
 </resources>

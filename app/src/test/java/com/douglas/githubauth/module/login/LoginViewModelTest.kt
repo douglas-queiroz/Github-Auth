@@ -20,7 +20,7 @@ class LoginViewModelTest {
     fun setUp() {
 
         MockitoAnnotations.initMocks(this)
-        target = LoginViewModel()
+        target = LoginViewModel(userLoginUseCase)
     }
 
     @Test
