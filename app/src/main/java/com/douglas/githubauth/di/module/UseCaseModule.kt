@@ -1,9 +1,9 @@
 package com.douglas.githubauth.di.module
 
 import com.douglas.githubauth.data.local.UserDao
+import com.douglas.githubauth.data.remote.RepositoryService
 import com.douglas.githubauth.data.remote.UserService
 import com.douglas.githubauth.domain.*
-import com.douglas.githubauth.helper.UserSessionHelper
 import com.douglas.githubauth.util.AuthorizationUtil
 import dagger.Module
 import dagger.Provides
@@ -25,6 +25,11 @@ class UseCaseModule {
     @Provides
     fun providesUserLogInUseCase(userDao: UserDao, userService: UserService, authorizationUtil: AuthorizationUtil) :
             UserLogInUseCase = UserLogInUseCaseImpl(userDao, userService, authorizationUtil)
+
+    @Singleton
+    @Provides
+    fun providesLoadRepositoriesUseCase(repositoryService: RepositoryService, authorizationUtil: AuthorizationUtil, userDao: UserDao) :
+            LoadRepositoriesUseCase = LoadRepositoriesUseCaseImpl(repositoryService, authorizationUtil, userDao)
 
     @Singleton
     @Provides

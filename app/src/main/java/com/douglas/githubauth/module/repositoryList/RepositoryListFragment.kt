@@ -1,4 +1,4 @@
-package com.douglas.githubauth.module.profile
+package com.douglas.githubauth.module.repositoryList
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -6,21 +6,21 @@ import android.os.Bundle
 import android.view.View
 import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
-import com.douglas.githubauth.domain.model.User
+import com.douglas.githubauth.domain.model.Repository
 import com.douglas.githubauth.module.base.BaseFragment
 import com.douglas.githubauth.module.base.BaseViewModel
 import com.douglas.githubauth.module.login.LoginFragment
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_repository_list.*
 
-class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
+class RepositoryListFragment : BaseFragment(R.layout.fragment_repository_list) {
 
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var viewModel: RepositoryListViewModel
+    private val adapter = RepositoryAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initDependece()
+        initDependence()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,7 +30,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         viewModel.loadProfile()
     }
 
-    private fun initDependece() {
+    private fun initDependence() {
 
         Application.component.inject(this)
         viewModel = getViewModel()
@@ -39,13 +39,14 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     private fun initView() {
+        repositoriesRecyclerView.adapter = adapter
         logoutButton.setOnClickListener { viewModel.logout() }
     }
 
-    private fun getViewModel() : ProfileViewModel {
+    private fun getViewModel() : RepositoryListViewModel {
         return ViewModelProviders
             .of(this, viewModelFactory)
-            .get(ProfileViewModel::class.java)
+            .get(RepositoryListViewModel::class.java)
     }
 
     override fun getViewMode(): BaseViewModel {
@@ -58,24 +59,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         })
     }
 
-    private fun updateView(viewState: ProfileViewModel.ViewState?) {
+    private fun updateView(viewState: RepositoryListViewModel.ViewState?) {
         when(viewState) {
-            is ProfileViewModel.ViewState.ShowProfile -> fillOutView(viewState.user)
-            is ProfileViewModel.ViewState.GoToLoginScreen -> goToLoginScreen()
+            is RepositoryListViewModel.ViewState.GoToLoginScreen -> goToLoginScreen()
+            is RepositoryListViewModel.ViewState.ShowRepositories -> showRepositories(viewState.repositories)
         }
     }
 
-    private fun fillOutView(user: User) {
-
-        Picasso.get()
-            .load(user.avatarUrl)
-            .into(avatarImageView)
-
-        nameTextView.text = user.name
-
-        emailTextView.text = user.email
-
-        locationTextView.text = user.location
+    private fun showRepositories(repositories: List<Repository>) {
+        adapter.repositories = repositories
+        adapter.notifyDataSetChanged()
     }
 
     private fun goToLoginScreen() {

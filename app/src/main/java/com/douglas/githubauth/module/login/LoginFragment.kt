@@ -8,7 +8,7 @@ import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
 import com.douglas.githubauth.module.base.BaseFragment
 import com.douglas.githubauth.module.base.BaseViewModel
-import com.douglas.githubauth.module.profile.ProfileFragment
+import com.douglas.githubauth.module.repositoryList.RepositoryListFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -59,7 +59,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
         if (goToProfileScreen != null && goToProfileScreen) {
 
-            val profileFragment = ProfileFragment()
+            val profileFragment = RepositoryListFragment()
 
             activity?.supportFragmentManager
                 ?.beginTransaction()
