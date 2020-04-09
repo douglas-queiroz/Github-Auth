@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import com.douglas.githubauth.Application
 import com.douglas.githubauth.R
 import com.douglas.githubauth.module.login.LoginFragment
-import com.douglas.githubauth.module.profile.ProfileFragment
+import com.douglas.githubauth.module.repositoryList.RepositoryListFragment
 import javax.inject.Inject
 
 class CoreActivity : AppCompatActivity() {
@@ -70,7 +70,7 @@ class CoreActivity : AppCompatActivity() {
     }
 
     private fun showProfileScree() {
-        val profileFragment = ProfileFragment()
+        val profileFragment = RepositoryListFragment()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.content, profileFragment)

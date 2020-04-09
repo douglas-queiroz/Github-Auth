@@ -1,22 +1,24 @@
-package com.douglas.githubauth.module.profile
+package com.douglas.githubauth.module.repositoryList
 
 import android.arch.lifecycle.MutableLiveData
 import com.douglas.githubauth.R
-import com.douglas.githubauth.domain.LoadUserUseCase
+import com.douglas.githubauth.domain.LoadRepositoriesUseCase
 import com.douglas.githubauth.domain.UserLogOutUseCase
 import com.douglas.githubauth.domain.exception.*
-import com.douglas.githubauth.domain.model.User
+import com.douglas.githubauth.domain.model.Repository
 import com.douglas.githubauth.module.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(private val loadUserUseCase: LoadUserUseCase,
-                                           private val logOutUseCase: UserLogOutUseCase) : BaseViewModel() {
+class RepositoryListViewModel @Inject constructor(
+    private val loadRepositoriesUseCase: LoadRepositoriesUseCase,
+    private val logOutUseCase: UserLogOutUseCase
+) : BaseViewModel() {
 
     sealed class ViewState {
-        class GoToLoginScreen : ViewState()
-        class ShowProfile(val user: User) : ViewState()
+        object GoToLoginScreen : ViewState()
+        class ShowRepositories(val repositories: List<Repository>): ViewState()
     }
 
     val viewState = MutableLiveData<ViewState>()
@@ -25,7 +27,7 @@ class ProfileViewModel @Inject constructor(private val loadUserUseCase: LoadUser
 
         loadingStatus.value = true
 
-        subscriptions.add(loadUserUseCase.loadUser()
+        subscriptions.add(loadRepositoriesUseCase.loadRepositories()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::loadProfileSuccess, this::catchError))
@@ -36,17 +38,17 @@ class ProfileViewModel @Inject constructor(private val loadUserUseCase: LoadUser
         try {
 
             logOutUseCase.logOutUser()
-            viewState.value = ViewState.GoToLoginScreen()
+            viewState.value = ViewState.GoToLoginScreen
 
         } catch (error: Throwable) {
             catchError(error)
         }
     }
 
-    private fun loadProfileSuccess(user: User) {
+    private fun loadProfileSuccess(repositories: List<Repository>) {
 
         loadingStatus.value = false
-        viewState.value = ViewState.ShowProfile(user)
+        viewState.value = ViewState.ShowRepositories(repositories)
     }
 
     private fun catchError(error: Throwable) {
